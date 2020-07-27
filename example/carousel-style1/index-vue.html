@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style/vender/reset.css">
+    <link rel="stylesheet" href="./style/vender/utility.css">
+    <link rel="stylesheet" href="./style/vender/grid-sys.css">
+    <link rel="stylesheet" href="./style/style-vue.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <title>0720</title>
+    <style>
+        /* .move-left-enter {
+            transform: translateX(100%);
+        }
+
+        .move-left-enter-to,
+        .move-left-leave {
+            transform: translateX(0);
+        }
+
+        .move-left-leave-to {
+            transform: translateX(-100%);
+        }
+
+        .move-left-enter-active,
+        .move-left-leave-active {
+            transition: transform .6s;
+        } */
+        /* img:not([src]) {
+            visibility: hidden;
+        }
+
+        img {
+            display: inline-block;
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+
+        img::after,
+        img::before {
+
+            content: '';
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+
+            visibility: visible;
+        }
+
+        img::before {
+            background: #00aacd;
+        } */
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="header" :class="{ isMenuActive: activeMenu }">
+            <div class="header-container">
+                <div class="header__logo"><a href="javascript:;"></a></div>
+                <div class="header-wrap--menu">
+                    <div class="header__menu" @click="toggleMenu"></div>
+                    <ul class="header__menu-list">
+                        <li v-for="item in menuList" :key="item.id" :class="{active : nowPath === item.id}"
+                            @click="goPage(item.id)"><a href="javascript:;">{{ item.text }}</a></li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+        <div class="banner">
+            <carousel :list="bannerList"></carousel>
+            <div class="banner-txt">
+                <h1>Hello, we're gtd.</h1>
+            </div>
+        </div>
+    </div>
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.js'></script>
+
+
+    <script>
+
+        const carouselControlArrow = {
+            props: {
+                direct: {
+                    type: String,
+                    required: true
+                }
+            },
+            template:
+                `
+            <div class="banner-carousel__arrow" 
+            :class="" @click="$emit(getDirect)"
+            @mouseenter="$emit('mouseenter')"
+            @mouseleave="$emit('mouseleave')"
+            ></div>
+            `,
+            computed: {
+                getDirect() { return this.direct }
+            }
+        }
+
+        const carouselControl = {
+            props: {
+                total: {
+                    type: Number,
+                    default: 0
+                },
+                active: {
+                    type: Number,
+                    // required: true
+                }
+            },
+            template: `
+            <ul class="banner-carousel__points">
+                <li 
+                v-for="num in total" 
+                :key="num + 'a'" 
+                @click="$emit('click',num - 1)" 
+                :class="{active: num - 1 === active}"
+                @mouseenter="$emit('mouseenter')"
+                @mouseleave="$emit('mouseleave')"
+                ></li>
+            </ul>`
+        }
+
+        const carouselContent = {
+            props: {
+                src: {
+                    type: String,
+                    default: ''
+                }
+            },
+            template: `<div class="banner-carousel__content"  :style="getSrc"></div>`,
+            computed: {
+                getSrc() { return `background-image: url('${this.src}')` }
+            },
+        }
+
+        const carousel = {
+            props: {
+                list: {
+                    type: Array,
+                    default: []
+                }
+            },
+            data() {
+                return {
+                    active: 0,
+                    total: this.list.length,
+                    direct: 0,
+                    isHover: false
+                }
+            },
+            components: {
+                carouselContent,
+                carouselControl,
+                carouselControlArrow
+            },
+            template: `
+            <div class="banner-carousel">
+                <transition :name="trans">
+                    <carousel-content :src="list[active].src" :key="list[active].id"></carousel-content>
+                </transition>
+                <carousel-control :total="total" :active="active" @click="changeContent" @mouseenter="mouseHover" @mouseleave="mouseLeave"></carousel-control>
+                <carousel-control-arrow class="next" direct="next" @next="nextHandler" @mouseenter="mouseHover" @mouseleave="mouseLeave"></carousel-control-arrow>
+                <carousel-control-arrow class="prev" direct="prev" @prev="prevHandler" @mouseenter="mouseHover" @mouseleave="mouseLeave"></carousel-control-arrow>
+            </div>
+            `,
+            computed: {
+                trans() { return this.direct ? 'move-left' : 'move-right' }
+            },
+            methods: {
+                mouseHover() {this.isHover = true },
+                mouseLeave() { this.isHover = false },
+                changeContent(val) { this.active = Math.abs(val) % this.total },
+                nextHandler() {
+                    this.direct = 1
+                    this.changeContent(this.active + 1)
+                },
+                prevHandler() {
+                    this.direct = 0
+                    this.changeContent(this.active - 1)
+                },
+                go() { this.isHover ? '' : this.nextHandler() }
+            }
+        }
+
+
+        let timeout = null
+        let intervalTime = 12000
+        let data = {
+            activeMenu: false,
+            nowPath: 0,
+            menuList: [
+                { id: 0, text: 'Home' },
+                { id: 1, text: 'About' },
+                { id: 2, text: 'Concat' }
+            ],
+            bannerList: [
+                { id: 0, src: 'https://picsum.photos/id/100/1440/505' },
+                { id: 1, src: 'https://picsum.photos/id/1000/1440/505' },
+                { id: 2, src: 'https://picsum.photos/id/1001/1440/505' }
+            ]
+        }
+
+        new Vue({
+            el: '#app',
+            data,
+            mounted() {
+                timeout = setInterval(() => {
+                    this.carouselGo()
+                },intervalTime)
+            },
+            beforeDestory() {
+                clearInterval(timeout)
+            },
+            components: {
+                carousel
+            },
+            methods: {
+                toggleMenu() { this.activeMenu = !this.activeMenu },
+                goPage(index) { this.nowPath = index },
+                carouselGo() { this.$children.forEach((com) => com.go()) }
+            }
+        })
+    </script>
+</body>
+
+</html>
