@@ -43,7 +43,7 @@ const carousel = {
     methods: {
         mouseHover() {this.isHover = true },
         mouseLeave() { this.isHover = false },
-        changeItem(val) { this.active = Math.abs(val) % this.total },
+        changeItem(val) { this.active = (val + this.total) % this.total },
         nextHandler() {
             this.direct = 1
             this.changeItem(this.active + 1)
