@@ -1,99 +1,76 @@
-@mixin carouselItem {
-    &__item {
-        @extend %ab-fill;
-        z-index: 0;
-
-
-        // item bk container
-        &__bk-container {
-            @extend %ab-fill;
-            z-index: 0;
-
-            &.next-in,&.prev-in {
-                animation-duration: 5s;
-                animation-timing-function: ease-out;
-                animation-fill-mode: backwards;
-            }
-            &.next-in {
-                animation-name: slide-left;
-            }
-
-            &.prev-in {
-                animation-name: slide-right;
-            }
-        }
-        
-
-        // item bk
-        &__bk {
-            @extend %ab-fill;
-            background-repeat: no-repeat;
-
-
-            &.mobile {
-                background-size: contain;
-                display: block;
-            }
-            &.desk {
-                display: none;
-                
-            }
-        }
-
-        // item content
-        &__content {
-            position: absolute;
-            left: 0px; right: 0;
-            
-            &-group {
-            }
-
-            &__logo {
-                animation-delay: .5s;
-            }
-
-            &__title {
-                @include font(6,0,3);
-                letter-spacing: 1px;
-                margin-bottom: nth($m,6);
-                margin-top: nth($m,6);
-                line-height: 1.2;
-
-                animation-delay: .7s;
-                
-                > a {
-                    text-decoration: none;
-                    color: $color-white;
-                }
-            }
-
-            &__btn {
-                @include btn-base();
-                animation-delay: .9s;
-            }
-
-            &__logo,&__title,&__btn {
-                &.next-in,&.prev-in {
-                    animation-duration: 5s;
-                    animation-timing-function: ease-out;
-                    animation-fill-mode: backwards;
-                }
-                &.next-in {
-                    animation-name: slide-left;
+@mixin carouselControlTimer($break:sm,$mobileWidth:25%,$deskWidth:60px) {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
+    background-color: $timerContainerBk;
+    
+    &-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    
+        > li {
+            position: relative;
+            flex-basis: $mobileWidth;
+            height: $timerMobileHeight;
+            margin-left: nth($m,1);
+            margin-right: nth($m,1);
+    
+            // transition
+            transition: transform .6s;
+    
+            // when timer running
+            &.active {
+                transform: scaleY(1.75);
+    
+                &::before {
+                    background-color: $timerActiveBk;
                 }
     
-                &.prev-in {
-                    animation-name: slide-right;
+                > .bar {
+                    width: 100%;
+                    visibility: visible;
                 }
             }
+    
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0; right: 0;
+                top: $timerBarHeight; bottom: $timerBarHeight;
+                background-color: $timerBaseBk;
+            }
+    
+            > .bar {
+                position: absolute;
+                left: 0;
+    
+                // setting width to run timer bar
+                width: 0;
+                visibility: hidden;
+    
+                top: $timerBarHeight; bottom: $timerBarHeight;
+                background-color: $timerActive;
+                overflow: hidden;
+    
+                // transition 
+                transition: width $timerRunTime linear;
+            }
         }
-
     }
 
-}
+    @include respond($break) {
+        &-list {
+            > li {
+                flex-basis: $deskWidth;
+                height: $timerDeskHeight;
 
-@mixin carouselControlTimer {
-    
+                &::before , & > .bar {
+                    top: $timerDeskBarHeight; bottom: $timerDeskBarHeight;
+                }
+            }
+        }
+    }
 }
 
 @mixin carouselControlPoints {
@@ -211,47 +188,7 @@
             position: absolute;
             left: 0px; right: 0;
             
-            &-group {
-            }
-
-            &__logo {
-                animation-delay: .5s;
-            }
-
-            &__title {
-                @include font(6,0,3);
-                letter-spacing: 1px;
-                margin-bottom: nth($m,6);
-                margin-top: nth($m,6);
-                line-height: 1.2;
-
-                animation-delay: .7s;
-                
-                > a {
-                    text-decoration: none;
-                    color: $color-white;
-                }
-            }
-
-            &__btn {
-                @include btn-base();
-                animation-delay: .9s;
-            }
-
-            &__logo,&__title,&__btn {
-                &.next-in,&.prev-in {
-                    animation-duration: 5s;
-                    animation-timing-function: ease-out;
-                    animation-fill-mode: backwards;
-                }
-                &.next-in {
-                    animation-name: slide-left;
-                }
-    
-                &.prev-in {
-                    animation-name: slide-right;
-                }
-            }
+            &-group { }
         }
 
     }
@@ -296,65 +233,66 @@
         
         // timer bar
         &__timer {
-            position: absolute;
-            left: 0; right: 0;
-            bottom: 0;
-            background-color: $timerContainerBk;
+            @include carouselControlTimer();
+    //         position: absolute;
+    //         left: 0; right: 0;
+    //         bottom: 0;
+    //         background-color: $timerContainerBk;
 
-            &-list {
-                display: flex;
-                justify-content: center;
-                align-items: center;
+    //         &-list {
+    //             display: flex;
+    //             justify-content: center;
+    //             align-items: center;
 
-                > li {
-                    position: relative;
-                    flex-basis: 25%;
-                    height: $timerMobileHeight;
-                    margin-left: nth($m,1);
-                    margin-right: nth($m,1);
+    //             > li {
+    //                 position: relative;
+    //                 flex-basis: 25%;
+    //                 height: $timerMobileHeight;
+    //                 margin-left: nth($m,1);
+    //                 margin-right: nth($m,1);
 
-                    // transition
-                    transition: transform .6s;
+    //                 // transition
+    //                 transition: transform .6s;
 
-                    // when timer running
-                    &.active {
-                        transform: scaleY(1.75);
+    //                 // when timer running
+    //                 &.active {
+    //                     transform: scaleY(1.75);
 
-                        &::before {
-                            background-color: $timerActiveBk;
-                        }
+    //                     &::before {
+    //                         background-color: $timerActiveBk;
+    //                     }
 
-                        > .bar {
-                            width: 100%;
-                            visibility: visible;
-                        }
-                    }
+    //                     > .bar {
+    //                         width: 100%;
+    //                         visibility: visible;
+    //                     }
+    //                 }
 
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        left: 0; right: 0;
-                        top: $timerBarHeight; bottom: $timerBarHeight;
-                        background-color: $timerBaseBk;
-                    }
+    //                 &::before {
+    //                     content: '';
+    //                     position: absolute;
+    //                     left: 0; right: 0;
+    //                     top: $timerBarHeight; bottom: $timerBarHeight;
+    //                     background-color: $timerBaseBk;
+    //                 }
 
-                    > .bar {
-                        position: absolute;
-                        left: 0;
+    //                 > .bar {
+    //                     position: absolute;
+    //                     left: 0;
 
-                        // setting width to run timer bar
-                        width: 0;
-                        visibility: hidden;
+    //                     // setting width to run timer bar
+    //                     width: 0;
+    //                     visibility: hidden;
 
-                        top: $timerBarHeight; bottom: $timerBarHeight;
-                        background-color: $timerActive;
-                        overflow: hidden;
+    //                     top: $timerBarHeight; bottom: $timerBarHeight;
+    //                     background-color: $timerActive;
+    //                     overflow: hidden;
 
-                        // transition 
-                        transition: width $timerRunTime linear;
-                    }
-                }
-            }
+    //                     // transition 
+    //                     transition: width $timerRunTime linear;
+    //                 }
+    //             }
+    //         }
         }
     }
 
