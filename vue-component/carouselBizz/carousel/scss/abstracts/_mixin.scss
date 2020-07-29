@@ -84,41 +84,81 @@
     }
 }
 
-@mixin btn-direct($size:21px,$weight:3px) {
+@mixin btn-direct($bk:false,$hover:false,$size:15px,$weight:3px,) {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: 36px;
+    height: 60px;
+    margin-top: auto;
+    margin-bottom: auto;
+    cursor: pointer;
+
+    @if($bk) { background-color: rgba($color-black,.3); }
+
+    > span {
         position: absolute;
-        top: 0;bottom: 0;
+        top: 0; bottom: 0;
         margin-top: auto;
         margin-bottom: auto;
-        width: $size; height: $size;
+        width: $size;
+        height: $size;
         cursor: pointer;
 
         &::after {
             content: '';
             position: absolute;
             left: 0; right: 0; top: 0; bottom: 0;
+            margin: auto;
             border-width: 0;
             border-style: solid;
             border-top-width: $weight;
+            color: $controlerArrowColor;
         }
+    }
 
-        &.next {
-            right: 15px;
+    &.next {
+        right: 15px;
+        
+        > span {
+            left: 6.9px;
             transform: rotateZ(45deg);
-
             &::after {
                 border-right-width: $weight;
             }
         }
+    }
 
-        &.prev {
-            left: 15px;
+    &.prev {
+        left: 15px;
+
+        > span {
+            right: 6.9px;
             transform: rotateZ(-45deg);
-
             &::after {
-                border-left-width: $weight;
+            border-left-width: $weight;
             }
         }
+    }
+
+    @if($hover) {
+
+        // transition
+        opacity: 0;
+        transition: opacity .3s;
+
+        &:hover {
+            > span {
+                &::after {
+                    color: $controlerArrowColorHover;
+                }
+            }
+        }
+    }
+    
 }
+
+
+
 // font-size and line-height
 @mixin  font($f-size-level:2,$lh:0,$f-weight-level:1) {
     font-size: nth($font-size , $f-size-level);

@@ -45,7 +45,6 @@ const carouselControl = {
         :islock="islock"
         :isStart="isStart"
         ></carousel-control-timer>
-
     </div>
     `,
     methods: {
