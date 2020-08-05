@@ -20,7 +20,7 @@ const carousel = {
             direct: 0,
             isHover: false,
             timeout: null,
-            transType: 'slide',
+            transType: 'move',
             islock: true,
             isStart: false,
             lockTimer: null
@@ -32,6 +32,7 @@ const carousel = {
     },
     mounted() {
         this.active = 0
+        // this.start()
     },
     beforeDestory() {
         this.stopTimer()
@@ -42,7 +43,7 @@ const carousel = {
         <div class="carousel-container">
 
         
-            <transition-group tag="div" class="carousel-pane" name="opacity" duration="300">
+            <transition-group tag="div" class="carousel-pane">
                 <carousel-item 
                 v-for="n in total" 
                 :key="n + 'a'"
@@ -91,7 +92,8 @@ const carousel = {
             this.isStart = true
             this.islock = false
          },
-        getMobileSrc(index) { return this.mobileBks ? this.mobileBks[index].src : ''},
+        getMobileSrc(index) { 
+            return this.mobileBks ? this.mobileBks[index].src : ''},
         getDeskSrc(index) { return this.deskBks ? this.deskBks[index].src : ''},
         setTimer() {
             clearInterval(this.timeout)
@@ -112,20 +114,23 @@ const carousel = {
         mouseHover() { this.isHover = true },
         mouseLeave() { this.isHover = false },
         
-        changeItem(val) { this.active = (val + this.total) % this.total },
+        changeItem(val) {
+            if(this.islock) { return }
+            this.direct = this.active < val ? 1 : 0
+            this.active = (val + this.total) % this.total
+            this.lock()
+            },
         nextHandler() {
             if(this.islock) { return }
 
             this.direct = 1
             this.changeItem(this.active + 1)
-            this.lock()
         },
         prevHandler() {
             if(this.islock) { return }
 
             this.direct = 0
             this.changeItem(this.active - 1)
-            this.lock()
         },
         go() { 
             this.isHover && !this.islock ? '' : this.nextHandler() 

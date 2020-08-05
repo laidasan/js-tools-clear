@@ -33,11 +33,12 @@ const carouselItem = {
     `
     <div class="carousel__item">
         <div class="carousel__item__bk-container" :style="getBkColor" :class="slideAni">
-            <div class="carousel__item__bk mobile" :style="getMobile" :key="getMobile + 'mobile'"></div>
-            <div class="carousel__item__bk desk" :style="getDesk" :key="getDesk + 'desk'"></div>
+            <div class="carousel__item__bk mobile" :style="getMobile" :key="getMobile + 'mobile'" v-if="srcMobile"></div>
+            <div class="carousel__item__bk desk" :key="getDesk + 'desk'" :style="getDesk" v-if="srcDesk"></div>
         </div>
-        <div class="carousel__item__content">
-            <div class="carousel__item__content-group"></div>
+        <div class="carousel__item__content>
+            <div class="carousel__item__content-group">
+            </div>
         </div>
     </div>
     `,

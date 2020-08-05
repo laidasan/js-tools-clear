@@ -19,11 +19,9 @@ const carouselControlTimer = {
     },
     data() {
         return {
-            width: 0
+            width: 0,
+            index: 0
         }
-    },
-    mounted() {
-        console.log(this.isStart)
     },
     template: 
     `
@@ -31,6 +29,7 @@ const carouselControlTimer = {
         <ul class="carousel__control__timer-list" v-if="total">
             <li v-for="n in total" 
             :key="n + 'li'"
+            @click="$emit('click',n - 1)" 
             :class="{active: !isStart ? false : active === n - 1}"
             ref="timerItem">
             <div class="bar"></div
