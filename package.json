@@ -1,0 +1,47 @@
+{
+  "name": "jstools",
+  "version": "1.0.0",
+  "description": "* vue-component * js",
+  "main": "webpack.config.js",
+  "directories": {
+    "example": "example",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --hot --open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laidasan/js-tools-clear.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/laidasan/js-tools-clear/issues"
+  },
+  "homepage": "https://github.com/laidasan/js-tools-clear#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "vue": "^2.6.12",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "@typescript-eslint/parser": "^4.1.0",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^4.3.0",
+    "eslint": "^7.9.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "file-loader": "^6.1.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.2",
+    "style-loader": "^1.2.1",
+    "vue-loader": "^15.9.3",
+    "vue-template-compiler": "^2.6.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
