@@ -2,6 +2,16 @@ import EXIF from 'exif-js'
 import numeral from 'numeral'
 // console.log(EXIF.getData)
 
+/**
+ * @package exif-js
+ * @link https://github.com/exif-js/exif-js
+ */
+
+/**
+ * @package numeral
+ * @link http://numeraljs.com/
+ */
+
 
 const { FileReader } = window
 
@@ -92,6 +102,12 @@ const useImgLoad = (readImg) => (file) => {
     
 }
 
+
+/**
+ * @function
+ * @desc readPhoto 與 readImg 差別在 , readPhoto 有 readImg 得出來的資訊外
+ * @desc 還多使用了 Image 來去得 img 的寬與高
+ */
 const readPhoto = useImgLoad(readImg)
 
 
