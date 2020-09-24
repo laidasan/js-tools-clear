@@ -23,6 +23,8 @@
   "homepage": "https://github.com/laidasan/js-tools-clear#readme",
   "dependencies": {
     "axios": "^0.20.0",
+    "exif-js": "^2.3.0",
+    "numeral": "^2.0.6",
     "vue": "^2.6.12",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12"
