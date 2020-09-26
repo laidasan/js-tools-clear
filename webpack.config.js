@@ -46,7 +46,7 @@ module.exports = {
   devtool: 'eval-cheap-module-source-map',
   devServer: {
     contentBase: path.resolve(__dirname, 'example'),
-    port: 8080
+    port: 5051
   },
   plugins: [
     // make sure to include the plugin!
@@ -55,6 +55,9 @@ module.exports = {
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.runtime.esm.js',
+      'define': path.resolve(__dirname,'source/defineEnum'),
+      'file': path.resolve(__dirname,'source/file'),
+      'testComponent': path.resolve(__dirname,'example/testComponent'),
       'source': path.resolve(__dirname,'source')
     }
   }

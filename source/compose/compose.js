@@ -1,0 +1,1 @@
+export const compose = (...rest) => (val) => rest.reduce((result,fn) => { return fn(result)},val)

@@ -29,12 +29,17 @@ const useFileReader = (format) => (file) => {
         EXIF.getData(file,() => {
           const {type,size,name} = file
           const { target , target : { result:base64 } } = e
-          console.log(type,size,name)
+          const imageMetadata = EXIF.getAllTags(file)
+          console.log(this === e)
+          console.log(e)
+          console.log(this)
+          //   console.log(type,size,name)
           //   console.log(base64)
-          console.log(target)
+          //   console.log(target)
 
           resolve({
             type,
+            imageMetadata,
             size,
             kb: numeral(size).format(format),
             name,
