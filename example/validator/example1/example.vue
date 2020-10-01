@@ -41,6 +41,10 @@ export default {
       name: '',
     }
   },
+  mounted() {
+    // console.warn(this.$v.name.$dirty)
+    console.log('_vuelidate',this._vuelidate)
+  },
   validations: {
     name: {
       ...nameValidations.validate
@@ -50,9 +54,9 @@ export default {
     onNameInput(event) {
       const { name: $vNmae } = this.$v
       $vNmae.$model = event.target.value
+      console.log(this.$v)
       console.log($vNmae)
       console.warn('error',$vNmae.$error)
-      console.warn('minLength',$vNmae.minLength)
       console.warn('required',$vNmae.required)
       console.warn('invalid',$vNmae.$invalid)
       console.warn('dirty',$vNmae.$dirty)
